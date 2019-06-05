@@ -1,3 +1,18 @@
+<?php
+require_once ("funciones.php");
+require_once ("helpers.php");
+if($_POST){
+  $errores = validar($_POST, "registro");
+  if(count($errores)==0){
+    $avatar = armarAvatar($_FILES);
+    $usuario = armarUsuario($_POST,$avatar);
+    guardarUsuario($usuario);
+    header("location: login.php");
+    exit;
+}
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,10 +44,10 @@
           <a class="nav-link" href="faq.html">FAQ's</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="login.html">Login</a>
+          <a class="nav-link" href="login.php">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="register.html" tabindex="-1" aria-disabled="true">Register</a>
+          <a class="nav-link" href="register.php" tabindex="-1" aria-disabled="true">Register</a>
         </li>
       </ul>
     </div>
@@ -42,20 +57,37 @@
   <div class="container">
   <div class="card-body">
 
+    <?php
+        if (isset($errores)) :?>
+        <ul>
+          <?php foreach ($errores as $key => $value) :?>
+              <li class="alert alert-danger"> <?=$value; ?></li>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
+
+
     <h2 class="Register">Registrarse</h2>
+
       <br>
-        <form class="px-4 py-3 mx-auto text-center">
+        <form class="px-4 py-3 mx-auto text-center" action="" method="POST" enctype= "multipart/form-data">
           <div class="form-group">
-            <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="Nombre">
+            <input name="nombre" type="text" class="form-control" id="nombre" value="<?= isset($errores["nombre"])? "": persistir("nombre") ?>" placeholder="Nombre">
           </div>
           <div class="form-group">
-            <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Apellido">
+            <input name="apellido" type="text" class="form-control" id="apellido" value="<?= isset($errores["apellido"])? "": persistir("apellido") ?>" placeholder="Apellido">
           </div>
           <div class="form-group">
-            <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Email">
+            <input name="email" type="email" class="form-control" id="email" value="<?= isset($errores["email"])? "": persistir("email") ?>" placeholder="Email">
           </div>
           <div class="form-group">
-            <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+            <input name="password" type="password" class="form-control" id="password" value="" placeholder="Contraseña">
+          </div>
+          <div class="form-group">
+            <input name="repassword" type="password" class="form-control" id="repassword" value="" placeholder="Rectifique su Contraseña">
+          </div>
+          <div class="form-group">
+            <input name="avatar" type="file" class="form-control" id="avatar" value="" placeholder="Adjunte su foto de perfil">
           </div>
               <button type="submit" class="btn btn-secondary">Registrarse</button>
         </form>

@@ -1,3 +1,30 @@
+<?php
+require_once ("funciones.php");
+require_once ("helpers.php");
+if($_POST){
+  $errores = validar($_POST, "login");
+  if(count($errores)==0){
+    $usuario = buscarEmail($_POST["email"]);
+    if ($usuario==null) {
+      $errores["email"]="Correo electrónico o contraseña incorrectos";
+    } else {
+      if (password_verify($_POST["password"],$usuario["password"])===false) {
+        $errores["password"]="Correo electrónico o contraseña incorrectos";
+      } else {
+        sesionUsuario($usuario, $_POST);
+//4/junio llegamos hasta validarUsuario en Login. Nos falta crea perfil.php y registro.php
+        if(validarUsuario()){
+          header("location: perfil.php");
+          exit;
+        }else{
+          header("location: registro.php");
+          exit;
+        }
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,10 +56,10 @@
           <a class="nav-link" href="faq.html">FAQ's</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="login.html">Login</a>
+          <a class="nav-link" href="login.php">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="register.html" tabindex="-1" aria-disabled="true">Register</a>
+          <a class="nav-link" href="register.php" tabindex="-1" aria-disabled="true">Register</a>
         </li>
       </ul>
     </div>
@@ -50,7 +77,7 @@
           <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="Email">
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+          <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Contraseña">
         </div>
         <div class="form-group">
           <div class="form-check">
