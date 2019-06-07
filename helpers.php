@@ -4,6 +4,7 @@ function dd($variable){
   echo "<pre>";
   var_dump($variable);
   exit;
+  echo "</pre>";
 }
 
 
