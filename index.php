@@ -9,34 +9,12 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Home</title>
   <link rel="stylesheet" href="css/master.css">
-</head>
+  </head>
 <body>
- <!-- Pongo las Navbar de bootstrap -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">
-      <img src="img/logo2.jpg" width="40" height="40" alt="">
-      SKÅL
-    </a>
-    <button class="navbar-toggler py-0" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="faq.html">FAQ's</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="login.php">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="register.php" tabindex="-1" aria-disabled="true">Register</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+ <!-- Pongo el link a nav_bar.php -->
+ <?php include("nav_bar.php") ?>
+
+
 
   <!-- Pongo div de Body de bootstrap -->
   <div class="container">

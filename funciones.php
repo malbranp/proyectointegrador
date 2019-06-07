@@ -118,7 +118,7 @@ function sesionUsuario($persona, $info){
   $_SESSION["avatar"]=$persona["avatar"];
   if (isset($info["recordar"])) {
     setcookie("email",$info["email"], time()+60*60*24);
-    setcookie("password",$indo["password"], time()+60*60*24);
+    setcookie("password",$info["password"], time()+60*60*24);
   }
 }
 function validarUsuario(){

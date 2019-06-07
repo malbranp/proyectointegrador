@@ -14,14 +14,13 @@ if($_POST){
         sesionUsuario($usuario, $_POST);
 //4/junio llegamos hasta validarUsuario en Login. Nos falta crea perfil.php y registro.php
         if(validarUsuario()){
-          header("location: perfil.php");
-          exit;
-        }else{
-          header("location: registro.php");
+          header("location: index.php");
           exit;
         }
 }
-
+}
+}
+}
 
 ?>
 
@@ -69,19 +68,28 @@ if($_POST){
   <div class="container">
   <div class="card-body">
 
+    <?php
+        if (isset($errores)) :?>
+        <ul>
+          <?php foreach ($errores as $key => $value) :?>
+              <li class="alert alert-danger"> <?=$value; ?></li>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
+
     <h2 class="Login">Ingresar</h2>
   <br>
 
-      <form class="px-4 py-3 mx-auto text-center">
+      <form class="px-4 py-3 mx-auto text-center" action="" method="POST" enctype= "multipart/form-data">
         <div class="form-group">
-          <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="Email">
+          <input type="email" name="email" class="form-control" id="exampleDropdownFormEmail1" value="<?= isset($errores["email"])? "": persistir("email") ?>" placeholder="Email">
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Contraseña">
+          <input type="password" name="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Contraseña">
         </div>
         <div class="form-group">
           <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="dropdownCheck">
+            <input name="recordar" type="checkbox" class="form-check-input" id="dropdownCheck" value="recordar">
             <label class="form-check-label" for="dropdownCheck">
               Recordarme
             </label>
@@ -90,7 +98,7 @@ if($_POST){
         <button type="submit" class="btn btn-secondary">Ingresar</button>
   <br>
   <br>
-        <a class="dropdown-item" href="#">Crear una Cuenta</a>
+        <a class="dropdown-item" href="register.php">Crear una Cuenta</a>
         <a class="dropdown-item" href="#">Olvido su Contraseña?</a>
 
 
