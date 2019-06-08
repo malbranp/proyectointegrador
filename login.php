@@ -1,3 +1,29 @@
+<?php
+require_once ("funciones.php");
+require_once ("helpers.php");
+if($_POST){
+  $errores = validar($_POST, "login");
+  if(count($errores)==0){
+    $usuario = buscarEmail($_POST["email"]);
+    if ($usuario==null) {
+      $errores["email"]="Correo electrónico o contraseña incorrectos";
+    } else {
+      if (password_verify($_POST["password"],$usuario["password"])===false) {
+        $errores["password"]="Correo electrónico o contraseña incorrectos";
+      } else {
+        sesionUsuario($usuario, $_POST);
+//4/junio llegamos hasta validarUsuario en Login. Nos falta crea perfil.php y registro.php
+        if(validarUsuario()){
+          header("location: index.php");
+          exit;
+        }
+}
+}
+}
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,10 +55,10 @@
           <a class="nav-link" href="faq.html">FAQ's</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="login.html">Login</a>
+          <a class="nav-link" href="login.php">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="register.html" tabindex="-1" aria-disabled="true">Register</a>
+          <a class="nav-link" href="register.php" tabindex="-1" aria-disabled="true">Register</a>
         </li>
       </ul>
     </div>
@@ -42,19 +68,28 @@
   <div class="container">
   <div class="card-body">
 
+    <?php
+        if (isset($errores)) :?>
+        <ul>
+          <?php foreach ($errores as $key => $value) :?>
+              <li class="alert alert-danger"> <?=$value; ?></li>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
+
     <h2 class="Login">Ingresar</h2>
   <br>
 
-      <form class="px-4 py-3 mx-auto text-center">
+      <form class="px-4 py-3 mx-auto text-center" action="" method="POST" enctype= "multipart/form-data">
         <div class="form-group">
-          <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="Email">
+          <input type="email" name="email" class="form-control" id="exampleDropdownFormEmail1" value="<?= isset($errores["email"])? "": persistir("email") ?>" placeholder="Email">
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+          <input type="password" name="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Contraseña">
         </div>
         <div class="form-group">
           <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="dropdownCheck">
+            <input name="recordar" type="checkbox" class="form-check-input" id="dropdownCheck" value="recordar">
             <label class="form-check-label" for="dropdownCheck">
               Recordarme
             </label>
@@ -63,7 +98,7 @@
         <button type="submit" class="btn btn-secondary">Ingresar</button>
   <br>
   <br>
-        <a class="dropdown-item" href="#">Crear una Cuenta</a>
+        <a class="dropdown-item" href="register.php">Crear una Cuenta</a>
         <a class="dropdown-item" href="#">Olvido su Contraseña?</a>
 
 
